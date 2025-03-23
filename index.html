@@ -3,36 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Editor & Splitter</title>
+    <title>VideoVibe Studio - Free Video Enhancement & Splitting</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        input, button { margin: 10px; padding: 5px; }
-        #status { color: green; }
-        #error { color: red; }
-        #progress { margin-top: 10px; }
+        body { background-color: #f8f9fa; }
+        .navbar-brand { font-weight: bold; }
+        .hero { padding: 50px 0; background: linear-gradient(135deg, #6e8efb, #a777e3); color: white; }
+        .feature-box { padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #status { color: #28a745; }
+        #error { color: #dc3545; }
         #downloadAllBtn { display: none; }
+        footer { background-color: #343a40; color: white; padding: 20px 0; }
+        .ad-box { background: #e9ecef; padding: 20px; margin: 20px 0; text-align: center; }
     </style>
 </head>
 <body>
-    <h1>Video Editor & Splitter</h1>
-    <input type="file" id="videoInput" accept="video/*">
-    <br>
-    <label for="splitTime">Split at (seconds):</label>
-    <input type="number" id="splitTime" min="1" placeholder="Enter time (e.g., 45)">
-    <br>
-    <button onclick="processVideo()">Process Video</button>
-    <br>
-    <div id="status"></div>
-    <div id="progress"></div>
-    <div id="error"></div>
-    <button id="downloadAllBtn" onclick="downloadAll()">Download All Segments</button>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">VideoVibe Studio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Load FFmpeg.js from CDN -->
+    <!-- Hero Section -->
+    <section class="hero text-center">
+        <div class="container">
+            <h1>Free Video Magic Awaits</h1>
+            <p>Enhance and split your videos with pro-level quality—no cost, no catch!</p>
+        </div>
+    </section>
+
+    <!-- Ad Banner 1 -->
+    <section class="container ad-box">
+        <p>[Ad Space - Google AdSense Banner Here]</p>
+    </section>
+
+    <!-- Processing Section -->
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 feature-box">
+                <h3>Enhance & Split Your Video</h3>
+                <input type="file" id="videoInput" accept="video/*" class="form-control">
+                <label for="splitTime" class="mt-3">Split at (seconds):</label>
+                <input type="number" id="splitTime" min="1" placeholder="e.g., 45" class="form-control">
+                <button onclick="processVideo()" class="btn btn-primary mt-3">Process Video</button>
+                <div id="status" class="mt-3"></div>
+                <div id="progress" class="mt-2"></div>
+                <div id="error" class="mt-3"></div>
+                <button id="downloadAllBtn" onclick="downloadAll()" class="btn btn-success mt-3">Download All Segments</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container my-5">
+        <h2 class="text-center mb-4">Why VideoVibe Studio?</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-box text-center">
+                    <h4>Crystal-Clear Quality</h4>
+                    <p>Sharpen every pixel for stunning clarity.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-box text-center">
+                    <h4>Vivid Colors</h4>
+                    <p>Boost contrast and saturation for vibrant visuals.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-box text-center">
+                    <h4>Smooth Playback</h4>
+                    <p>Enjoy silky 60fps gameplay and more.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ad Banner 2 -->
+    <section class="container ad-box">
+        <p>[Ad Space - Google AdSense Banner Here]</p>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container my-5">
+        <h2 class="text-center mb-4">About Us</h2>
+        <p class="text-center">VideoVibe Studio is your free gateway to pro-level video editing. We believe everyone deserves the best tools, no strings attached.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="text-center">
+        <div class="container">
+            <p>© 2025 VideoVibe Studio. All rights reserved.</p>
+            <p>Contact: support@videovibestudio.com</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FFmpeg.js -->
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
     <script>
         const { createFFmpeg, fetchFile } = FFmpeg;
         const ffmpeg = createFFmpeg({ log: true });
-        let downloadURLs = []; // Store URLs for all segments
+        let downloadURLs = [];
 
         async function processVideo() {
             const videoInput = document.getElementById('videoInput').files[0];
@@ -42,7 +127,6 @@
             const error = document.getElementById('error');
             const downloadAllBtn = document.getElementById('downloadAllBtn');
 
-            // Reset UI
             status.textContent = '';
             progress.textContent = '';
             error.textContent = '';
@@ -63,29 +147,24 @@
 
             status.textContent = 'Enhancing video...';
             try {
-                // Write the uploaded video to FFmpeg's virtual filesystem
                 ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoInput));
-
-                // Enhance video with filters
                 await ffmpeg.run(
                     '-i', 'input.mp4',
                     '-vf', 'unsharp=5:5:1.0,eq=contrast=1.2:brightness=0.08:saturation=1.3,hqdn3d,fps=60',
                     '-c:v', 'libx264',
-                    '-preset', 'slow',
+                    '-preset', 'medium', // Changed to medium for faster processing
                     '-crf', '18',
                     '-c:a', 'aac',
                     '-b:a', '192k',
                     'enhanced.mp4'
                 );
 
-                // Get enhanced video duration
                 const probe = await ffmpeg.run('-i', 'enhanced.mp4');
                 const logs = ffmpeg.FS('readFile', 'stderr').toString();
                 const durationMatch = logs.match(/Duration: (\d{2}):(\d{2}):(\d{2}\.\d{2})/);
                 if (!durationMatch) throw new Error('Could not determine video duration.');
                 const duration = parseInt(durationMatch[1]) * 3600 + parseInt(durationMatch[2]) * 60 + parseFloat(durationMatch[3]);
 
-                // Calculate segments
                 const segmentCount = Math.ceil(duration / splitTime);
                 status.textContent = 'Splitting enhanced video...';
 
@@ -93,7 +172,6 @@
                     const start = i * splitTime;
                     const outputFile = `output_part${i + 1}.mp4`;
 
-                    // Split enhanced video
                     await ffmpeg.run(
                         '-i', 'enhanced.mp4',
                         '-ss', start.toString(),
@@ -103,14 +181,11 @@
                         outputFile
                     );
 
-                    // Update progress
                     progress.textContent = `Processed segment ${i + 1} of ${segmentCount}`;
-
-                    // Read the output file and store URL
                     const data = ffmpeg.FS('readFile', outputFile);
                     const blob = new Blob([data.buffer], { type: 'video/mp4' });
                     const url = URL.createObjectURL(blob);
-                    downloadURLs.push({ url, filename: `GameplayMaster_part${i + 1}.mp4` });
+                    downloadURLs.push({ url, filename: `VideoVibe_part${i + 1}.mp4` });
                 }
 
                 status.textContent = 'Processing complete! Click below to download all segments.';
