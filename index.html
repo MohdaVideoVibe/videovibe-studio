@@ -84,8 +84,8 @@
             </div>
             <div class="col-md-4 mb-4">
                 <div class="feature-box text-center">
-                    <h4>Smooth Playback</h4>
-                    <p>Enjoy silky 60fps gameplay and more.</p>
+                    <h4>Free & Easy</h4>
+                    <p>No software needed—edit right in your browser.</p>
                 </div>
             </div>
         </div>
@@ -150,9 +150,9 @@
                 ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoInput));
                 await ffmpeg.run(
                     '-i', 'input.mp4',
-                    '-vf', 'unsharp=5:5:1.0,eq=contrast=1.2:brightness=0.08:saturation=1.3,hqdn3d,fps=60',
+                    '-vf', 'unsharp=5:5:1.0,eq=contrast=1.2:brightness=0.08:saturation=1.3', // Removed hqdn3d, fps=60
                     '-c:v', 'libx264',
-                    '-preset', 'medium', // Changed to medium for faster processing
+                    '-preset', 'fast', // Changed to fast for speed
                     '-crf', '18',
                     '-c:a', 'aac',
                     '-b:a', '192k',
